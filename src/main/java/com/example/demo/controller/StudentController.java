@@ -11,14 +11,9 @@ public class StudentController {
     StudentService studentService;
 
     @PostMapping("/create")
-    public StudentDTO create(@RequestBody StudentDTO dto)
+    public void create(@RequestBody StudentDTO dto)
     {
-        return studentService.create(dto);
+         studentService.create(dto);
     }
-//    @DeleteMapping("/delete/{id}")
-//    public void create(@PathVariable("id") String id)
-//    {
-//        return StudentService.create(dto);
-//    }
 }
 

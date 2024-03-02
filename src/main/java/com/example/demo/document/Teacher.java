@@ -10,7 +10,6 @@ import javax.persistence.Id;
 public class Teacher {
     @Id
     @GeneratedValue(generator = "uuid")
-//    @GenericGenerator(name = "uuid", strategy = "uuid2")
     private String id;
     private String name;
     private String className;
