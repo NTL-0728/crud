@@ -12,36 +12,32 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class TeacherService {
-    @Autowired private
+    @Autowired
+    private
     TeacherRepository teacherRepository;
     @Autowired
     StudentRepository studentRepository;
-    @Autowired private
+    @Autowired
+    private
     TeacherMapper teacherMapper;
 
 
-    public void create(TeacherPayloadDTO dto)
-    {
-        if(teacherRepository.existsByName(dto.getName()))
-        {
-            throw  new DuplicateFieldNameException(Teacher.class, dto.getName());
+    public void create(TeacherPayloadDTO dto) {
+        if (teacherRepository.existsByName(dto.getName())) {
+            throw new DuplicateFieldNameException(Teacher.class, dto.getName());
         }
         Teacher teacher = new Teacher();
         teacherMapper.updateTeacher(dto, teacher);
         teacherRepository.save(teacher);
     }
-    public  void update(TeacherPayloadDTO dto, String id)
-    {
-        Teacher teacher = findByIdOrElseThrow(id);
+
+    public void update(TeacherPayloadDTO dto, String id) {
+        Teacher teacher = teacherRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(Teacher.class, id));
         teacherMapper.updateTeacher(dto, teacher);
         teacherRepository.save(teacher);
     }
-    public TeacherPayloadDTO findById(String id)
-    {
+
+    public TeacherPayloadDTO findById(String id) {
         return teacherRepository.findById(id).map(teacherMapper::toDTO).orElseThrow(() -> new ResourceNotFoundException(Teacher.class, id));
-    }
-    public Teacher findByIdOrElseThrow(String id)
-    {
-        return teacherRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(Teacher.class, id));
     }
 }

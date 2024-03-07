@@ -16,26 +16,19 @@ public class StudentService {
     @Autowired
     private StudentMapper studentMapper;
 
-    public void create(StudentDTO dto)
-    {
+    public void create(StudentDTO dto) {
         Student student = new Student();
         studentMapper.updateStudent(dto, student);
         studentRepository.save(student);
     }
-    public void update(StudentDTO dto, String id)
-    {
-        Student student = findByIdOrElseThrow(id);
+
+    public void update(StudentDTO dto, String id) {
+        Student student = studentRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(Student.class, id));
         studentMapper.updateStudent(dto, student);
         studentRepository.save(student);
     }
-    public StudentDTO findById(String id)
-    {
+
+    public StudentDTO findById(String id) {
         return studentRepository.findById(id).map(studentMapper::toDTO).orElseThrow(() -> new ResourceNotFoundException(Student.class, id));
     }
-    public Student findByIdOrElseThrow(String id)
-    {
-        return studentRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(Student.class, id));
-    }
-
-
 }
